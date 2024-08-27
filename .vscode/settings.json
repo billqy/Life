@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "math.h": "c",
+        "settings.h": "c",
+        "raylib.h": "c",
+        "raymath.h": "c"
+    }
+}
