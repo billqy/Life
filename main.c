@@ -1,3 +1,7 @@
+#ifndef RAYGUI_IMPLEMENTATION
+#define RAYGUI_IMPLEMENTATION
+#endif
+
 #include "include/raylib.h"
 #include "include/raymath.h"
 #include <stdlib.h>
@@ -8,14 +12,14 @@
 
 #include "settings.h"
 #include "quark.h"
-//#include "controls.h"
+#include "controlUI.h"
 
 int quarkCount = 1000;
 int MIN_ATTRACTION_DISTANCE = 75;
 int MAX_ATTRACTION_DISTANCE = 500;
 int Gravity = 100;
 
-Vector2 screen = {sWidth, 1000};
+Vector2 screen = {sWidth, sHeight};
 Vector2 zeros = {0,0};
 
 int main() {
@@ -25,6 +29,7 @@ int main() {
     SetTargetFPS(60);
     
     GenerateQuarks(quarks);
+    InitUI();
     
     while (!WindowShouldClose()) {
         BeginDrawing();
@@ -34,6 +39,7 @@ int main() {
         itoa(quarkCount, tQuarkCount, 10);
         strcat(tQuarkLabel, tQuarkCount);
         
+        //Sim
         float frametime = GetFrameTime();
         
         for (int i = 0; i < quarkCount; i++) {
@@ -44,6 +50,7 @@ int main() {
         
         DrawFPS(10,10);
         DrawText(tQuarkLabel, 10, 35, 20, WHITE);
+        DrawControlUI();
         ClearBackground(BLACK);
         
         EndDrawing();    
