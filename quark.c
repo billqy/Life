@@ -4,7 +4,7 @@
 #include <math.h>
 
 void GenerateQuarks(Quark quarks[]) {
-    for (int i = 0; i < quarkCount; i++) {
+    for (int i = 0; i < QUARK_COUNT; i++) {
         
         int typeNum = GetRandomValue(1, 4);
         char tempType;
@@ -124,9 +124,9 @@ float DetermineAttraction(char selfType, char otherType) {
 }
 
 void UpdateQuarks(Quark* quark, float frametime, Quark quarks[]) {
-    for (int i = 0; i < quarkCount; i++) {
+    for (int i = 0; i < QUARK_COUNT; i++) {
         float F = 0, fx = 0, fy = 0;
-        float G = Gravity * 0.01;
+        float G = GRAVITY * 0.01;
         
         char selfType = quark->type;
         char otherType = quarks[i].type;
