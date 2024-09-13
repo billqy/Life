@@ -3,8 +3,9 @@
 #include "settings.h"
 #include <math.h>
 
+
 void GenerateQuarks(Quark quarks[]) {
-    for (int i = 0; i < QUARK_COUNT; i++) {
+    for (int i = 0; i < MAX_QUARK_COUNT; i++) {
         
         int typeNum = GetRandomValue(1, 4);
         char tempType;

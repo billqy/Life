@@ -14,6 +14,7 @@
 #include "quark.h"
 #include "controlUI.h"
 
+int MAX_QUARK_COUNT = 2000;
 int QUARK_COUNT = 1000;
 int MIN_ATTRACTION_DISTANCE = 75;
 int MAX_ATTRACTION_DISTANCE = 500;

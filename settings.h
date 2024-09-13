@@ -8,6 +8,7 @@
 #define sHeight 1000
 #define MAX_QUARKS 2000
 
+extern int MAX_QUARK_COUNT;
 extern int QUARK_COUNT;
 extern int MIN_ATTRACTION_DISTANCE;
 extern int MAX_ATTRACTION_DISTANCE;
