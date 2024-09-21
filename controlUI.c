@@ -1,5 +1,6 @@
 #include "controlUI.h"
 
+#include <stdlib.h>
 #include "settings.h"
 
 int RULES_TOGGLE = 0;
@@ -20,6 +21,33 @@ Label GreenPercentLabel;
 Slider GreenPercentSlider;
 Label BluePercentLabel;
 Slider BluePercentSlider;
+
+Label InteractionTitleLabel;
+Label InteractionXLabel;
+Label InteractionY1Label;
+Label InteractionY2Label;
+Label InteractionY3Label;
+Label InteractionY4Label;
+
+ValueBox YxY;
+ValueBox YxG;
+ValueBox YxB;
+ValueBox YxR;
+
+ValueBox GxY;
+ValueBox GxG;
+ValueBox GxB;
+ValueBox GxR;
+
+ValueBox BxY;
+ValueBox BxG;
+ValueBox BxB;
+ValueBox BxR;
+
+ValueBox RxY;
+ValueBox RxG;
+ValueBox RxB;
+ValueBox RxR;
 
 Label PresetsLabel;
 Button SnakePresetButton;
@@ -89,12 +117,36 @@ void InitUI() {
     BluePercentSlider.maxVal = 100;
 
     // Interaction Matrix
+    InteractionTitleLabel.rect = (Rectangle) {BackgroundPanelRect.x + BackgroundPanelRect.width/2 - STD_PAD - 50, BackgroundPanelRect.y + 400, STD_LABEL_W, STD_LABEL_H};
+    InteractionXLabel.rect = (Rectangle) {BackgroundPanelRect.x + STD_PAD, BackgroundPanelRect.y + 425, STD_LABEL_W + 10, STD_LABEL_H};
+    InteractionY1Label.rect = (Rectangle) {BackgroundPanelRect.x + STD_PAD, BackgroundPanelRect.y + 470, STD_LABEL_W, STD_LABEL_H};
+    InteractionY2Label.rect = (Rectangle) {BackgroundPanelRect.x + STD_PAD, BackgroundPanelRect.y + 515, STD_LABEL_W, STD_LABEL_H};
+    InteractionY3Label.rect = (Rectangle) {BackgroundPanelRect.x + STD_PAD, BackgroundPanelRect.y + 560, STD_LABEL_W, STD_LABEL_H};
+    InteractionY4Label.rect = (Rectangle) {BackgroundPanelRect.x + STD_PAD, BackgroundPanelRect.y + 605, STD_LABEL_W, STD_LABEL_H};
 
-    // Presets
-    PresetsLabel.rect = (Rectangle) {BackgroundPanelRect.x + BackgroundPanelRect.width/2 - STD_PAD, BackgroundPanelRect.y + 640, STD_LABEL_W, STD_LABEL_H};
-    SnakePresetButton.rect = (Rectangle) {BackgroundPanelRect.x + STD_PAD - 20, BackgroundPanelRect.y + 660, 80, 40};
-    AtomPresetButton.rect = (Rectangle) {BackgroundPanelRect.x + STD_PAD + 70, BackgroundPanelRect.y + 660, 80, 40};
-    Preset3Button.rect = (Rectangle) {BackgroundPanelRect.x + STD_PAD + 160, BackgroundPanelRect.y + 660, 80, 40};
+    YxY.rect = (Rectangle) {BackgroundPanelRect.x + STD_PAD + 10, BackgroundPanelRect.y + 470, STD_LABEL_W, STD_LABEL_H};
+    YxG.rect = (Rectangle) {BackgroundPanelRect.x + STD_PAD + 30, BackgroundPanelRect.y + 470, STD_LABEL_W, STD_LABEL_H};
+    YxB.rect = (Rectangle) {BackgroundPanelRect.x + STD_PAD + 50, BackgroundPanelRect.y + 470, STD_LABEL_W, STD_LABEL_H};
+    YxR.rect = (Rectangle) {BackgroundPanelRect.x + STD_PAD + 70, BackgroundPanelRect.y + 470, STD_LABEL_W, STD_LABEL_H};
+
+    GxY.rect = (Rectangle) {BackgroundPanelRect.x + STD_PAD + 10, BackgroundPanelRect.y + 515, STD_LABEL_W, STD_LABEL_H};
+    GxG.rect = (Rectangle) {BackgroundPanelRect.x + STD_PAD + 30, BackgroundPanelRect.y + 515, STD_LABEL_W, STD_LABEL_H};
+    GxB.rect = (Rectangle) {BackgroundPanelRect.x + STD_PAD + 50, BackgroundPanelRect.y + 515, STD_LABEL_W, STD_LABEL_H};
+    GxR.rect = (Rectangle) {BackgroundPanelRect.x + STD_PAD + 70, BackgroundPanelRect.y + 515, STD_LABEL_W, STD_LABEL_H};
+
+    // ValueBox valueBoxes[16] = {YxY, YxG, YxB, YxR, GxY, GxG, GxB, GxR};
+
+    // for (int i = 0; i < 16; i++) {
+    //     valueBoxes[i].minVal = -100;
+    //     valueBoxes[i].maxVal = 100;
+    // }
+    YxY.editMode = false;
+
+    // Presets (Snake, Atom, Placeholder)
+    PresetsLabel.rect = (Rectangle) {BackgroundPanelRect.x + BackgroundPanelRect.width/2 - STD_PAD, BackgroundPanelRect.y + 650, STD_LABEL_W, STD_LABEL_H};
+    SnakePresetButton.rect = (Rectangle) {BackgroundPanelRect.x + STD_PAD - 20, BackgroundPanelRect.y + 670, 80, 40};
+    AtomPresetButton.rect = (Rectangle) {BackgroundPanelRect.x + STD_PAD + 70, BackgroundPanelRect.y + 670, 80, 40};
+    Preset3Button.rect = (Rectangle) {BackgroundPanelRect.x + STD_PAD + 160, BackgroundPanelRect.y + 670, 80, 40};
 
     // Functions (Clear, Reset, Generate)
     FunctionsLabel.rect = (Rectangle) {BackgroundPanelRect.x + BackgroundPanelRect.width/2 - STD_PAD, BackgroundPanelRect.y + BackgroundPanelRect.height - STD_PAD - 80, STD_LABEL_W, STD_LABEL_H};
@@ -124,8 +176,8 @@ void InitUI() {
 
 void DrawControlUI() {
     GuiLoadStyleDefault();
-
     GuiSetStyle(DEFAULT, TEXT_SIZE, 12);
+
     if (GuiButton(RulesButton.rect, "RULES")) {
         if (RULES_TOGGLE) {
             RULES_TOGGLE = 0;
@@ -155,6 +207,20 @@ void DrawControlUI() {
 
         GuiLabel(BluePercentLabel.rect, "Blue %");
         GuiSlider(BluePercentSlider.rect, "0", "100", BluePercentSlider.pValue, BluePercentSlider.minVal, BluePercentSlider.maxVal);
+
+        GuiLabel(InteractionTitleLabel.rect, "Interaction Matrix");
+        GuiLabel(InteractionXLabel.rect, "x     Y     G     B     R");
+        GuiLabel(InteractionY1Label.rect, "Y");
+        GuiLabel(InteractionY2Label.rect, "G");
+        GuiLabel(InteractionY3Label.rect, "B");
+        GuiLabel(InteractionY4Label.rect, "R");
+
+// GuiValueBox(Rectangle bounds, const char *text, int *value, int minValue, int maxValue, bool editMode); // Value Box control, updates input text with numbers
+//GuiValueBoxFloat(Rectangle bounds, const char *text, char *textValue, float *value, bool editMode); // Value box control for float values
+
+        // if (GuiValueBoxFloat(YxY.rect, NULL, YxY.pString, YxY.pValue, YxY.editMode)) {
+        //     YxY.editMode = !YxY.editMode;
+        // }
 
         GuiLabel(PresetsLabel.rect, "Presets");
         if (GuiButton(SnakePresetButton.rect, "Snake")) {

@@ -17,6 +17,15 @@ typedef struct Panel {
     Color color;
 } Panel;
 
+typedef struct ValueBox {
+    Rectangle rect;
+    char pString[100];
+    float* pValue;
+    bool editMode;
+    int maxVal;
+    int minVal;
+} ValueBox;
+
 typedef struct Slider {
     Rectangle rect;
     float* pValue;
