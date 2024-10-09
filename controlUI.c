@@ -1,6 +1,7 @@
 #include "controlUI.h"
 
 #include <stdlib.h>
+#include <string.h>
 #include "settings.h"
 
 int RULES_TOGGLE = 0;
@@ -29,25 +30,25 @@ Label InteractionY2Label;
 Label InteractionY3Label;
 Label InteractionY4Label;
 
-ValueBox YxY;
-ValueBox YxG;
-ValueBox YxB;
-ValueBox YxR;
+Button YxY;
+Button YxG;
+Button YxB;
+Button YxR;
 
-ValueBox GxY;
-ValueBox GxG;
-ValueBox GxB;
-ValueBox GxR;
+Button GxY;
+Button GxG;
+Button GxB;
+Button GxR;
 
-ValueBox BxY;
-ValueBox BxG;
-ValueBox BxB;
-ValueBox BxR;
+Button BxY;
+Button BxG;
+Button BxB;
+Button BxR;
 
-ValueBox RxY;
-ValueBox RxG;
-ValueBox RxB;
-ValueBox RxR;
+Button RxY;
+Button RxG;
+Button RxB;
+Button RxR;
 
 Label PresetsLabel;
 Button SnakePresetButton;
@@ -124,23 +125,44 @@ void InitUI() {
     InteractionY3Label.rect = (Rectangle) {BackgroundPanelRect.x + STD_PAD, BackgroundPanelRect.y + 560, STD_LABEL_W, STD_LABEL_H};
     InteractionY4Label.rect = (Rectangle) {BackgroundPanelRect.x + STD_PAD, BackgroundPanelRect.y + 605, STD_LABEL_W, STD_LABEL_H};
 
-    YxY.rect = (Rectangle) {BackgroundPanelRect.x + STD_PAD + 10, BackgroundPanelRect.y + 470, STD_LABEL_W, STD_LABEL_H};
-    YxG.rect = (Rectangle) {BackgroundPanelRect.x + STD_PAD + 30, BackgroundPanelRect.y + 470, STD_LABEL_W, STD_LABEL_H};
-    YxB.rect = (Rectangle) {BackgroundPanelRect.x + STD_PAD + 50, BackgroundPanelRect.y + 470, STD_LABEL_W, STD_LABEL_H};
-    YxR.rect = (Rectangle) {BackgroundPanelRect.x + STD_PAD + 70, BackgroundPanelRect.y + 470, STD_LABEL_W, STD_LABEL_H};
+    int STD_IM = 40;
 
-    GxY.rect = (Rectangle) {BackgroundPanelRect.x + STD_PAD + 10, BackgroundPanelRect.y + 515, STD_LABEL_W, STD_LABEL_H};
-    GxG.rect = (Rectangle) {BackgroundPanelRect.x + STD_PAD + 30, BackgroundPanelRect.y + 515, STD_LABEL_W, STD_LABEL_H};
-    GxB.rect = (Rectangle) {BackgroundPanelRect.x + STD_PAD + 50, BackgroundPanelRect.y + 515, STD_LABEL_W, STD_LABEL_H};
-    GxR.rect = (Rectangle) {BackgroundPanelRect.x + STD_PAD + 70, BackgroundPanelRect.y + 515, STD_LABEL_W, STD_LABEL_H};
+    YxY.rect = (Rectangle) {BackgroundPanelRect.x + STD_PAD + 30, BackgroundPanelRect.y + 455, STD_IM, STD_IM};
+    YxG.rect = (Rectangle) {BackgroundPanelRect.x + STD_PAD + 80, BackgroundPanelRect.y + 455, STD_IM, STD_IM};
+    YxB.rect = (Rectangle) {BackgroundPanelRect.x + STD_PAD + 130, BackgroundPanelRect.y + 455, STD_IM, STD_IM};
+    YxR.rect = (Rectangle) {BackgroundPanelRect.x + STD_PAD + 180, BackgroundPanelRect.y + 455, STD_IM, STD_IM};
 
-    // ValueBox valueBoxes[16] = {YxY, YxG, YxB, YxR, GxY, GxG, GxB, GxR};
+    GxY.rect = (Rectangle) {BackgroundPanelRect.x + STD_PAD + 30, BackgroundPanelRect.y + 500, STD_IM, STD_IM};
+    GxG.rect = (Rectangle) {BackgroundPanelRect.x + STD_PAD + 80, BackgroundPanelRect.y + 500, STD_IM, STD_IM};
+    GxB.rect = (Rectangle) {BackgroundPanelRect.x + STD_PAD + 130, BackgroundPanelRect.y + 500, STD_IM, STD_IM};
+    GxR.rect = (Rectangle) {BackgroundPanelRect.x + STD_PAD + 180, BackgroundPanelRect.y + 500, STD_IM, STD_IM};
 
-    // for (int i = 0; i < 16; i++) {
-    //     valueBoxes[i].minVal = -100;
-    //     valueBoxes[i].maxVal = 100;
-    // }
-    YxY.editMode = false;
+    BxY.rect = (Rectangle) {BackgroundPanelRect.x + STD_PAD + 30, BackgroundPanelRect.y + 545, STD_IM, STD_IM};
+    BxG.rect = (Rectangle) {BackgroundPanelRect.x + STD_PAD + 80, BackgroundPanelRect.y + 545, STD_IM, STD_IM};
+    BxB.rect = (Rectangle) {BackgroundPanelRect.x + STD_PAD + 130, BackgroundPanelRect.y + 545, STD_IM, STD_IM};
+    BxR.rect = (Rectangle) {BackgroundPanelRect.x + STD_PAD + 180, BackgroundPanelRect.y + 545, STD_IM, STD_IM};
+
+    RxY.rect = (Rectangle) {BackgroundPanelRect.x + STD_PAD + 30, BackgroundPanelRect.y + 590, STD_IM, STD_IM};
+    RxG.rect = (Rectangle) {BackgroundPanelRect.x + STD_PAD + 80, BackgroundPanelRect.y + 590, STD_IM, STD_IM};
+    RxB.rect = (Rectangle) {BackgroundPanelRect.x + STD_PAD + 130, BackgroundPanelRect.y + 590, STD_IM, STD_IM};
+    RxR.rect = (Rectangle) {BackgroundPanelRect.x + STD_PAD + 180, BackgroundPanelRect.y + 590, STD_IM, STD_IM};
+
+    YxY.val = 0;
+    YxG.val = 0;
+    YxB.val = 0;
+    YxR.val = 0;
+    GxY.val = 0;
+    GxG.val = 0;
+    GxB.val = 0;
+    GxR.val = 0;
+    BxY.val = 0;
+    BxG.val = 0;
+    BxB.val = 0;
+    BxR.val = 0;
+    RxY.val = 0;
+    RxG.val = 0;
+    RxB.val = 0;
+    RxR.val = 0;
 
     // Presets (Snake, Atom, Placeholder)
     PresetsLabel.rect = (Rectangle) {BackgroundPanelRect.x + BackgroundPanelRect.width/2 - STD_PAD, BackgroundPanelRect.y + 650, STD_LABEL_W, STD_LABEL_H};
@@ -172,6 +194,55 @@ void InitUI() {
     // MOUSE2 REPULSION
 
     return;
+}
+
+int DetermineButtonColor(float cVal) {
+
+    if ( (cVal - -1 ) < 0.0001 ) {
+        return 0xFF2D00FF;
+    }
+
+    else if ( (cVal - -0.8) < 0.0001 ) {
+        return 0xFF502BFF;
+    }
+
+    else if ( (cVal - -0.6) < 0.0001 ) {
+        return 0xFF7557FF;
+    }
+
+    else if ( (cVal - -0.4) < 0.0001 ) {
+        return 0xFFA38FFF;
+    }
+
+    else if ( (cVal - -0.2) < 0.0001 ) {
+        return 0xFFCBBFFF;
+    }
+
+    else if ( (cVal - 0) < 0.0001 ) {
+        return 0xFFFFFFFF;
+    }
+
+    else if ( (cVal - 0.2) < 0.0001 ) {
+        return 0xC7FFBFFF;
+    }
+
+    else if ( (cVal - 0.4) < 0.0001 ) {
+        return 0xA3FF96FF;
+    }
+
+    else if ( (cVal - 0.6) < 0.0001 ) {
+        return 0x7AFF67FF;
+    }
+
+    else if ( (cVal - 0.8) < 0.0001 ) {
+        return 0x42FF28FF;
+    }
+
+    else if( (cVal - 1) < 0.0001 ) {
+        return 0x1FFF00FF;
+    }
+
+    return 0xFFFFFFFF;
 }
 
 void DrawControlUI() {
@@ -216,12 +287,170 @@ void DrawControlUI() {
         GuiLabel(InteractionY4Label.rect, "R");
 
 // GuiValueBox(Rectangle bounds, const char *text, int *value, int minValue, int maxValue, bool editMode); // Value Box control, updates input text with numbers
-//GuiValueBoxFloat(Rectangle bounds, const char *text, char *textValue, float *value, bool editMode); // Value box control for float values
+// GuiValueBoxFloat(Rectangle bounds, const char *text, char *textValue, float *value, bool editMode); // Value box control for float values
 
-        // if (GuiValueBoxFloat(YxY.rect, NULL, YxY.pString, YxY.pValue, YxY.editMode)) {
-        //     YxY.editMode = !YxY.editMode;
-        // }
+        GuiSetStyle(DEFAULT, BASE_COLOR_NORMAL, DetermineButtonColor(YxY.val));
+        GuiSetStyle(DEFAULT, BASE_COLOR_FOCUSED, DetermineButtonColor(YxY.val));
+        if (GuiButton(YxY.rect, YxY.label)) {
+            YxY.val += 0.2;
 
+            if ( YxY.val > 1) {
+                YxY.val = -1;
+            }
+        }
+
+        GuiSetStyle(DEFAULT, BASE_COLOR_NORMAL, DetermineButtonColor(YxG.val));
+        GuiSetStyle(DEFAULT, BASE_COLOR_FOCUSED, DetermineButtonColor(YxG.val));
+        if (GuiButton(YxG.rect, "")) {
+            YxG.val += 0.2;
+
+            if ( YxG.val > 1) {
+                YxG.val = -1;
+            }
+        }
+
+        GuiSetStyle(DEFAULT, BASE_COLOR_NORMAL, DetermineButtonColor(YxB.val));
+        GuiSetStyle(DEFAULT, BASE_COLOR_FOCUSED, DetermineButtonColor(YxB.val));
+        if (GuiButton(YxB.rect, "")) {
+            YxB.val += 0.2;
+
+            if ( YxB.val > 1) {
+                YxB.val = -1;
+            }
+        }
+
+        GuiSetStyle(DEFAULT, BASE_COLOR_NORMAL, DetermineButtonColor(YxR.val));
+        GuiSetStyle(DEFAULT, BASE_COLOR_FOCUSED, DetermineButtonColor(YxR.val));
+        if (GuiButton(YxR.rect, "")) {
+            YxR.val += 0.2;
+
+            if ( YxR.val > 1) {
+                YxR.val = -1;
+            }
+        }
+
+        GuiSetStyle(DEFAULT, BASE_COLOR_NORMAL, DetermineButtonColor(GxY.val));
+        GuiSetStyle(DEFAULT, BASE_COLOR_FOCUSED, DetermineButtonColor(GxY.val));
+        if (GuiButton(GxY.rect, "")) {
+            GxY.val += 0.2;
+
+            if ( GxY.val > 1) {
+                GxY.val = -1;
+            }
+        }
+
+        GuiSetStyle(DEFAULT, BASE_COLOR_NORMAL, DetermineButtonColor(GxG.val));
+        GuiSetStyle(DEFAULT, BASE_COLOR_FOCUSED, DetermineButtonColor(GxG.val));
+        if (GuiButton(GxG.rect, "")) {
+            GxG.val += 0.2;
+
+            if ( GxG.val > 1) {
+                GxG.val = -1;
+            }
+        }
+
+        GuiSetStyle(DEFAULT, BASE_COLOR_NORMAL, DetermineButtonColor(GxB.val));
+        GuiSetStyle(DEFAULT, BASE_COLOR_FOCUSED, DetermineButtonColor(GxB.val));
+        if (GuiButton(GxB.rect, "")) {
+            GxB.val += 0.2;
+
+            if ( GxB.val > 1) {
+                GxB.val = -1;
+            }
+        }
+
+        GuiSetStyle(DEFAULT, BASE_COLOR_NORMAL, DetermineButtonColor(GxR.val));
+        GuiSetStyle(DEFAULT, BASE_COLOR_FOCUSED, DetermineButtonColor(GxR.val));
+        if (GuiButton(GxR.rect, "")) {
+            GxR.val += 0.2;
+
+            if ( GxR.val > 1) {
+                GxR.val = -1;
+            }
+        }
+
+        GuiSetStyle(DEFAULT, BASE_COLOR_NORMAL, DetermineButtonColor(BxY.val));
+        GuiSetStyle(DEFAULT, BASE_COLOR_FOCUSED, DetermineButtonColor(BxY.val));
+        if (GuiButton(BxY.rect, "")) {
+            BxY.val += 0.2;
+
+            if ( BxY.val > 1) {
+                BxY.val = -1;
+            }
+        }
+
+        GuiSetStyle(DEFAULT, BASE_COLOR_NORMAL, DetermineButtonColor(BxG.val));
+        GuiSetStyle(DEFAULT, BASE_COLOR_FOCUSED, DetermineButtonColor(BxG.val));
+        if (GuiButton(BxG.rect, "")) {
+            BxG.val += 0.2;
+
+            if ( BxG.val > 1) {
+                BxG.val = -1;
+            }
+        }
+
+        GuiSetStyle(DEFAULT, BASE_COLOR_NORMAL, DetermineButtonColor(BxB.val));
+        GuiSetStyle(DEFAULT, BASE_COLOR_FOCUSED, DetermineButtonColor(BxB.val));
+        if (GuiButton(BxB.rect, "")) {
+            BxB.val += 0.2;
+
+            if ( BxB.val > 1) {
+                BxB.val = -1;
+            }
+        }
+
+        GuiSetStyle(DEFAULT, BASE_COLOR_NORMAL, DetermineButtonColor(BxR.val));
+        GuiSetStyle(DEFAULT, BASE_COLOR_FOCUSED, DetermineButtonColor(BxR.val));
+        if (GuiButton(BxR.rect, "")) {
+            BxR.val += 0.2;
+
+            if ( BxR.val > 1) {
+                BxR.val = -1;
+            }
+        }
+
+        GuiSetStyle(DEFAULT, BASE_COLOR_NORMAL, DetermineButtonColor(RxY.val));
+        GuiSetStyle(DEFAULT, BASE_COLOR_FOCUSED, DetermineButtonColor(RxY.val));
+        if (GuiButton(RxY.rect, "")) {
+            RxY.val += 0.2;
+
+            if ( RxY.val > 1) {
+                RxY.val = -1;
+            }
+        }
+
+        GuiSetStyle(DEFAULT, BASE_COLOR_NORMAL, DetermineButtonColor(RxG.val));
+        GuiSetStyle(DEFAULT, BASE_COLOR_FOCUSED, DetermineButtonColor(RxG.val));
+        if (GuiButton(RxG.rect, "")) {
+            RxG.val += 0.2;
+
+            if ( RxG.val > 1) {
+                RxG.val = -1;
+            }
+        }
+
+        GuiSetStyle(DEFAULT, BASE_COLOR_NORMAL, DetermineButtonColor(RxB.val));
+        GuiSetStyle(DEFAULT, BASE_COLOR_FOCUSED, DetermineButtonColor(RxB.val));
+        if (GuiButton(RxB.rect, "")) {
+            RxB.val += 0.2;
+
+            if ( RxB.val > 1) {
+                RxB.val = -1;
+            }
+        }
+
+        GuiSetStyle(DEFAULT, BASE_COLOR_NORMAL, DetermineButtonColor(RxR.val));
+        GuiSetStyle(DEFAULT, BASE_COLOR_FOCUSED, DetermineButtonColor(RxR.val));
+        if (GuiButton(RxR.rect, "")) {
+            RxR.val += 0.2;
+
+            if ( RxR.val > 1) {
+                RxR.val = -1;
+            }
+        }
+
+        GuiLoadStyleDefault();
+        GuiSetStyle(DEFAULT, TEXT_SIZE, 12);
         GuiLabel(PresetsLabel.rect, "Presets");
         if (GuiButton(SnakePresetButton.rect, "Snake")) {
             

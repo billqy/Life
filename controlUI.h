@@ -6,6 +6,8 @@
 typedef struct Button {
     Rectangle rect;
     Color color;
+    float val;
+    char label[5];
 } Button;
 
 typedef struct Label {
@@ -17,14 +19,14 @@ typedef struct Panel {
     Color color;
 } Panel;
 
-typedef struct ValueBox {
-    Rectangle rect;
-    char pString[100];
-    float* pValue;
-    bool editMode;
-    int maxVal;
-    int minVal;
-} ValueBox;
+// typedef struct ValueBox {
+//     Rectangle rect;
+//     char pString[100];
+//     float* pValue;
+//     bool editMode;
+//     int maxVal;
+//     int minVal;
+// } ValueBox;
 
 typedef struct Slider {
     Rectangle rect;
