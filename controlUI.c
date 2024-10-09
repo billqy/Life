@@ -1,7 +1,7 @@
 #include "controlUI.h"
 
 #include <stdlib.h>
-#include <string.h>
+#include <stdio.h>
 #include "settings.h"
 
 int RULES_TOGGLE = 0;
@@ -65,6 +65,8 @@ void InitUI() {
     int STD_LABEL_W = 200;
     int STD_LABEL_H = 15;
     float STD_PAD = 35;
+
+    //GuiLoadStyle("dark.rgs");
 
     Rectangle RulesRect = {20, sHeight/2 - 50, 50, 100};
     Rectangle BackgroundPanelRect = {75, 75, 300, sHeight - 150};
@@ -196,58 +198,66 @@ void InitUI() {
     return;
 }
 
-int DetermineButtonColor(float cVal) {
+
+void DetermineButtonColor(float cVal, Button* button) {
+    int color = 0xFFFFFFFF;
 
     if ( (cVal - -1 ) < 0.0001 ) {
-        return 0xFF2D00FF;
+        color = 0xFF2D00FF;
     }
 
     else if ( (cVal - -0.8) < 0.0001 ) {
-        return 0xFF502BFF;
+        color = 0xFF502BFF;
     }
 
     else if ( (cVal - -0.6) < 0.0001 ) {
-        return 0xFF7557FF;
+        color = 0xFF7557FF;
     }
 
     else if ( (cVal - -0.4) < 0.0001 ) {
-        return 0xFFA38FFF;
+        color = 0xFFA38FFF;
     }
 
     else if ( (cVal - -0.2) < 0.0001 ) {
-        return 0xFFCBBFFF;
+        color = 0xFFCBBFFF;
     }
 
     else if ( (cVal - 0) < 0.0001 ) {
-        return 0xFFFFFFFF;
+        color = 0xFFFFFFFF;
     }
 
     else if ( (cVal - 0.2) < 0.0001 ) {
-        return 0xC7FFBFFF;
+        color = 0xC7FFBFFF;
     }
 
     else if ( (cVal - 0.4) < 0.0001 ) {
-        return 0xA3FF96FF;
+        color = 0xA3FF96FF;
     }
 
     else if ( (cVal - 0.6) < 0.0001 ) {
-        return 0x7AFF67FF;
+        color = 0x7AFF67FF;
     }
 
     else if ( (cVal - 0.8) < 0.0001 ) {
-        return 0x42FF28FF;
+        color = 0x42FF28FF;
     }
 
     else if( (cVal - 1) < 0.0001 ) {
-        return 0x1FFF00FF;
+        color = 0x1FFF00FF;
     }
 
-    return 0xFFFFFFFF;
+    sprintf(button->label, "%.1f", cVal);
+
+    GuiSetStyle(DEFAULT, TEXT_COLOR_NORMAL, 0x000000FF); // black
+    GuiSetStyle(DEFAULT, TEXT_COLOR_FOCUSED, 0x000000FF); // black
+    GuiSetStyle(DEFAULT, BASE_COLOR_NORMAL, color);
+    GuiSetStyle(DEFAULT, BASE_COLOR_FOCUSED, color);
 }
 
 void DrawControlUI() {
-    GuiLoadStyleDefault();
+    //GuiLoadStyleDefault();
     GuiSetStyle(DEFAULT, TEXT_SIZE, 12);
+    
 
     if (GuiButton(RulesButton.rect, "RULES")) {
         if (RULES_TOGGLE) {
@@ -289,8 +299,7 @@ void DrawControlUI() {
 // GuiValueBox(Rectangle bounds, const char *text, int *value, int minValue, int maxValue, bool editMode); // Value Box control, updates input text with numbers
 // GuiValueBoxFloat(Rectangle bounds, const char *text, char *textValue, float *value, bool editMode); // Value box control for float values
 
-        GuiSetStyle(DEFAULT, BASE_COLOR_NORMAL, DetermineButtonColor(YxY.val));
-        GuiSetStyle(DEFAULT, BASE_COLOR_FOCUSED, DetermineButtonColor(YxY.val));
+        DetermineButtonColor(YxY.val, &YxY);
         if (GuiButton(YxY.rect, YxY.label)) {
             YxY.val += 0.2;
 
@@ -299,9 +308,8 @@ void DrawControlUI() {
             }
         }
 
-        GuiSetStyle(DEFAULT, BASE_COLOR_NORMAL, DetermineButtonColor(YxG.val));
-        GuiSetStyle(DEFAULT, BASE_COLOR_FOCUSED, DetermineButtonColor(YxG.val));
-        if (GuiButton(YxG.rect, "")) {
+        DetermineButtonColor(YxG.val, &YxG);
+        if (GuiButton(YxG.rect, YxG.label)) {
             YxG.val += 0.2;
 
             if ( YxG.val > 1) {
@@ -309,9 +317,8 @@ void DrawControlUI() {
             }
         }
 
-        GuiSetStyle(DEFAULT, BASE_COLOR_NORMAL, DetermineButtonColor(YxB.val));
-        GuiSetStyle(DEFAULT, BASE_COLOR_FOCUSED, DetermineButtonColor(YxB.val));
-        if (GuiButton(YxB.rect, "")) {
+        DetermineButtonColor(YxB.val, &YxB);
+        if (GuiButton(YxB.rect, YxB.label)) {
             YxB.val += 0.2;
 
             if ( YxB.val > 1) {
@@ -319,9 +326,8 @@ void DrawControlUI() {
             }
         }
 
-        GuiSetStyle(DEFAULT, BASE_COLOR_NORMAL, DetermineButtonColor(YxR.val));
-        GuiSetStyle(DEFAULT, BASE_COLOR_FOCUSED, DetermineButtonColor(YxR.val));
-        if (GuiButton(YxR.rect, "")) {
+        DetermineButtonColor(YxR.val, &YxR);
+        if (GuiButton(YxR.rect, YxR.label)) {
             YxR.val += 0.2;
 
             if ( YxR.val > 1) {
@@ -329,9 +335,8 @@ void DrawControlUI() {
             }
         }
 
-        GuiSetStyle(DEFAULT, BASE_COLOR_NORMAL, DetermineButtonColor(GxY.val));
-        GuiSetStyle(DEFAULT, BASE_COLOR_FOCUSED, DetermineButtonColor(GxY.val));
-        if (GuiButton(GxY.rect, "")) {
+        DetermineButtonColor(GxY.val, &GxY);
+        if (GuiButton(GxY.rect, GxY.label)) {
             GxY.val += 0.2;
 
             if ( GxY.val > 1) {
@@ -339,9 +344,8 @@ void DrawControlUI() {
             }
         }
 
-        GuiSetStyle(DEFAULT, BASE_COLOR_NORMAL, DetermineButtonColor(GxG.val));
-        GuiSetStyle(DEFAULT, BASE_COLOR_FOCUSED, DetermineButtonColor(GxG.val));
-        if (GuiButton(GxG.rect, "")) {
+        DetermineButtonColor(GxG.val, &GxG);
+        if (GuiButton(GxG.rect, GxG.label)) {
             GxG.val += 0.2;
 
             if ( GxG.val > 1) {
@@ -349,9 +353,8 @@ void DrawControlUI() {
             }
         }
 
-        GuiSetStyle(DEFAULT, BASE_COLOR_NORMAL, DetermineButtonColor(GxB.val));
-        GuiSetStyle(DEFAULT, BASE_COLOR_FOCUSED, DetermineButtonColor(GxB.val));
-        if (GuiButton(GxB.rect, "")) {
+        DetermineButtonColor(GxB.val, &GxB);
+        if (GuiButton(GxB.rect, GxB.label)) {
             GxB.val += 0.2;
 
             if ( GxB.val > 1) {
@@ -359,9 +362,8 @@ void DrawControlUI() {
             }
         }
 
-        GuiSetStyle(DEFAULT, BASE_COLOR_NORMAL, DetermineButtonColor(GxR.val));
-        GuiSetStyle(DEFAULT, BASE_COLOR_FOCUSED, DetermineButtonColor(GxR.val));
-        if (GuiButton(GxR.rect, "")) {
+        DetermineButtonColor(GxR.val, &GxR);
+        if (GuiButton(GxR.rect, GxR.label)) {
             GxR.val += 0.2;
 
             if ( GxR.val > 1) {
@@ -369,9 +371,8 @@ void DrawControlUI() {
             }
         }
 
-        GuiSetStyle(DEFAULT, BASE_COLOR_NORMAL, DetermineButtonColor(BxY.val));
-        GuiSetStyle(DEFAULT, BASE_COLOR_FOCUSED, DetermineButtonColor(BxY.val));
-        if (GuiButton(BxY.rect, "")) {
+        DetermineButtonColor(BxY.val, &BxY);
+        if (GuiButton(BxY.rect, BxY.label)) {
             BxY.val += 0.2;
 
             if ( BxY.val > 1) {
@@ -379,9 +380,8 @@ void DrawControlUI() {
             }
         }
 
-        GuiSetStyle(DEFAULT, BASE_COLOR_NORMAL, DetermineButtonColor(BxG.val));
-        GuiSetStyle(DEFAULT, BASE_COLOR_FOCUSED, DetermineButtonColor(BxG.val));
-        if (GuiButton(BxG.rect, "")) {
+        DetermineButtonColor(BxG.val, &BxG);
+        if (GuiButton(BxG.rect, BxG.label)) {
             BxG.val += 0.2;
 
             if ( BxG.val > 1) {
@@ -389,9 +389,8 @@ void DrawControlUI() {
             }
         }
 
-        GuiSetStyle(DEFAULT, BASE_COLOR_NORMAL, DetermineButtonColor(BxB.val));
-        GuiSetStyle(DEFAULT, BASE_COLOR_FOCUSED, DetermineButtonColor(BxB.val));
-        if (GuiButton(BxB.rect, "")) {
+        DetermineButtonColor(BxB.val, &BxB);
+        if (GuiButton(BxB.rect, BxB.label)) {
             BxB.val += 0.2;
 
             if ( BxB.val > 1) {
@@ -399,9 +398,8 @@ void DrawControlUI() {
             }
         }
 
-        GuiSetStyle(DEFAULT, BASE_COLOR_NORMAL, DetermineButtonColor(BxR.val));
-        GuiSetStyle(DEFAULT, BASE_COLOR_FOCUSED, DetermineButtonColor(BxR.val));
-        if (GuiButton(BxR.rect, "")) {
+        DetermineButtonColor(BxR.val, &BxR);
+        if (GuiButton(BxR.rect, BxR.label)) {
             BxR.val += 0.2;
 
             if ( BxR.val > 1) {
@@ -409,9 +407,8 @@ void DrawControlUI() {
             }
         }
 
-        GuiSetStyle(DEFAULT, BASE_COLOR_NORMAL, DetermineButtonColor(RxY.val));
-        GuiSetStyle(DEFAULT, BASE_COLOR_FOCUSED, DetermineButtonColor(RxY.val));
-        if (GuiButton(RxY.rect, "")) {
+        DetermineButtonColor(RxY.val, &RxY);
+        if (GuiButton(RxY.rect, RxY.label)) {
             RxY.val += 0.2;
 
             if ( RxY.val > 1) {
@@ -419,9 +416,8 @@ void DrawControlUI() {
             }
         }
 
-        GuiSetStyle(DEFAULT, BASE_COLOR_NORMAL, DetermineButtonColor(RxG.val));
-        GuiSetStyle(DEFAULT, BASE_COLOR_FOCUSED, DetermineButtonColor(RxG.val));
-        if (GuiButton(RxG.rect, "")) {
+        DetermineButtonColor(RxG.val, &RxG);
+        if (GuiButton(RxG.rect, RxG.label)) {
             RxG.val += 0.2;
 
             if ( RxG.val > 1) {
@@ -429,9 +425,8 @@ void DrawControlUI() {
             }
         }
 
-        GuiSetStyle(DEFAULT, BASE_COLOR_NORMAL, DetermineButtonColor(RxB.val));
-        GuiSetStyle(DEFAULT, BASE_COLOR_FOCUSED, DetermineButtonColor(RxB.val));
-        if (GuiButton(RxB.rect, "")) {
+        DetermineButtonColor(RxB.val, &RxB);
+        if (GuiButton(RxB.rect, RxB.label)) {
             RxB.val += 0.2;
 
             if ( RxB.val > 1) {
@@ -439,9 +434,8 @@ void DrawControlUI() {
             }
         }
 
-        GuiSetStyle(DEFAULT, BASE_COLOR_NORMAL, DetermineButtonColor(RxR.val));
-        GuiSetStyle(DEFAULT, BASE_COLOR_FOCUSED, DetermineButtonColor(RxR.val));
-        if (GuiButton(RxR.rect, "")) {
+        DetermineButtonColor(RxR.val, &RxR);
+        if (GuiButton(RxR.rect, RxR.label)) {
             RxR.val += 0.2;
 
             if ( RxR.val > 1) {
