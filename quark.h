@@ -13,6 +13,7 @@ typedef struct _Quark {
 
 void GenerateQuarks(Quark quarks[]);
 float DetermineAttraction(char selfType, char otherType);
+void UpdateColors(Quark* quark, int goals[]);
 void UpdateQuarks(Quark* quark, float frametime, Quark quarks[]);
 
 #endif

@@ -4,5 +4,6 @@
         "settings.h": "c",
         "raylib.h": "c",
         "raymath.h": "c"
-    }
+    },
+    "C_Cpp.errorSquiggles": "enabled"
 }

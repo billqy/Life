@@ -8,6 +8,7 @@ void GenerateQuarks(Quark quarks[]) {
     for (int i = 0; i < MAX_QUARK_COUNT; i++) {
         
         int typeNum = GetRandomValue(1, 4);
+
         char tempType;
         Color color;
         
@@ -34,7 +35,7 @@ void GenerateQuarks(Quark quarks[]) {
                 break;
         }
         
-        Quark newQuark = { tempType, color, {GetRandomValue(200, sHeight-200), GetRandomValue(200, sWidth-200)}, {0,0} }; 
+        Quark newQuark = { tempType, color, {GetRandomValue(100, sWidth-100), GetRandomValue(100, sHeight-100)}, {0,0} }; 
         quarks[i] = newQuark;
     }   
 }
@@ -42,80 +43,68 @@ void GenerateQuarks(Quark quarks[]) {
 float DetermineAttraction(char selfType, char otherType) {
     float modifier = 1;
     
-    float interactionMatrix[4][4] = {
-            /*{1, 0.5, 0, -0.4}, // YxY, YxG, YxB, YxR
-            {-0.4, 1, 0.5, 0}, // GxY, GxG, GxB, GxR
-            {0, -0.4, 1, 0.5}, // BxY, BxG, BxB, BxR
-            {0.4, 0, -0.4, 1}  // RxY, RxG, RxB, RxR*/
-            
-            {1, 0.2, 0, 0}, // YxY, YxG, YxB, YxR
-            {0, 1, 0.2, 0}, // GxY, GxG, GxB, GxR
-            {0, 0, 1, 0.2}, // BxY, BxG, BxB, BxR
-            {0, 0, 0, 1}  // RxY, RxG, RxB, RxR*/
-    };
-    
     switch (selfType) {
         case 'Y':
             switch (otherType) {
                 case 'Y':
-                    modifier = interactionMatrix[0][0];
+                    modifier = INTERACTION_MATRIX[0][0];
                     break;
                 case 'G':
-                    modifier = interactionMatrix[0][1];
+                    modifier = INTERACTION_MATRIX[0][1];
                     break;
                 case 'B':
-                    modifier = interactionMatrix[0][2];
+                    modifier = INTERACTION_MATRIX[0][2];
                     break;
                 case 'R':
-                    modifier = interactionMatrix[0][3];
+                    modifier = INTERACTION_MATRIX[0][3];
                     break;
                 }
             break;
         case 'G':
             switch (otherType) {
                 case 'Y':
-                    modifier = interactionMatrix[1][0];
+                    modifier = INTERACTION_MATRIX[1][0];
                     break;
                 case 'G':
-                    modifier = interactionMatrix[1][1];
+                    modifier = INTERACTION_MATRIX[1][1];
                     break;
                 case 'B':
-                    modifier = interactionMatrix[1][2];
+                    modifier = INTERACTION_MATRIX[1][2];
                     break;
                 case 'R':
-                    modifier = interactionMatrix[1][3];
+                    modifier = INTERACTION_MATRIX[1][3];
                     break;
                 }
             break;
         case 'B':
             switch (otherType) {
                 case 'Y':
-                    modifier = interactionMatrix[2][0];
+                    modifier = INTERACTION_MATRIX[2][0];
                     break;
                 case 'G':
-                    modifier = interactionMatrix[2][1];
+                    modifier = INTERACTION_MATRIX[2][1];
                     break;
                 case 'B':
-                    modifier = interactionMatrix[2][2];
+                    modifier = INTERACTION_MATRIX[2][2];
                     break;
                 case 'R':
-                    modifier = interactionMatrix[2][3];
+                    modifier = INTERACTION_MATRIX[2][3];
                     break;
                 }
             break;
         case 'R':
             switch (otherType) {
                 case 'Y':
-                    modifier = interactionMatrix[3][0];
+                    modifier = INTERACTION_MATRIX[3][0];
                     break;
                 case 'G':
-                    modifier = interactionMatrix[3][1];
+                    modifier = INTERACTION_MATRIX[3][1];
                     break;
                 case 'B':
-                    modifier = interactionMatrix[3][2];
+                    modifier = INTERACTION_MATRIX[3][2];
                     break;
                 case 'R':
-                    modifier = interactionMatrix[3][3];
+                    modifier = INTERACTION_MATRIX[3][3];
                     break;
                 }
             break;
@@ -123,6 +112,7 @@ float DetermineAttraction(char selfType, char otherType) {
     
     return modifier;
 }
+
 
 void UpdateQuarks(Quark* quark, float frametime, Quark quarks[]) {
     for (int i = 0; i < QUARK_COUNT; i++) {
@@ -144,7 +134,6 @@ void UpdateQuarks(Quark* quark, float frametime, Quark quarks[]) {
         if (d < MAX_ATTRACTION_DISTANCE) {
 
             if (d < MIN_ATTRACTION_DISTANCE) {
-                //F = (d*G*2 / MIN_ATTRACTION_DISTANCE) - (G*2);
                 F = -0.001 * G * pow( (d - MIN_ATTRACTION_DISTANCE), 2);
             } else {
                 int midpoint = (MAX_ATTRACTION_DISTANCE + MIN_ATTRACTION_DISTANCE) / 2;

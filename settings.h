@@ -13,6 +13,9 @@ extern int QUARK_COUNT;
 extern int MIN_ATTRACTION_DISTANCE;
 extern int MAX_ATTRACTION_DISTANCE;
 extern int GRAVITY;
+extern float INTERACTION_MATRIX[4][4];
+extern int CLEARED;
+extern int GENERATE;
 
 extern Vector2 screen;
 extern Vector2 zeros;
